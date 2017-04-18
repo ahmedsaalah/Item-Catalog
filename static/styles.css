@@ -1,0 +1,20 @@
+body > .container {
+  padding-top: 60px;
+  color: #212121;
+}
+
+.navbar-default {
+  background-color: #1976D2;
+}
+
+.navbar-default .navbar-nav>li>a, .navbar-default .navbar-brand {
+  color: #FFFFFF;
+}
+
+.panel-default>.panel-heading {
+  background-color: #FFEB3B;
+}
+
+#signinButton {
+  padding-top: 10px;
+}

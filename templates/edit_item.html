@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+   <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-md-offset-1">
+    <h3>Add new item</h3>
+    <form action="{{ url_for('editItem', item_title=item.name)}}" method='post'>
+      <label for="title">Title:</label>
+      <input type="text" name='title' value="{{item.name}}"> <br>
+      <label for="description">Description:</label> <br>
+      <textarea name="description" rows="8" cols="40">{{item.description}}</textarea> <br>
+      <label for="category_id">Category:</label>
+      <select name="category_id">
+        {% for category_option in categories %}
+          <option value="{{category_option.id}}" {{"selected" if category_option.name==category.name}}>{{ category_option.name }}</option>
+        {% endfor %}
+      </select><br> <br>
+      <input class="btn btn-block btn-success center" type='submit' value='Update'>
+    </form>
+    <div class = 'flash'>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-warning" role="alert">
+           {% for message in messages %}
+           <li> <strong> {{ message }} </strong> </li>
+           {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+     </div>
+  </div>
+  </div>
+  </div>
+{% endblock %}
