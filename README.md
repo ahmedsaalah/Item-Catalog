@@ -14,7 +14,7 @@ To download and install this program, you will need git installed.
 
 At the command line, enter:
 ```
-git clone https://github.com/alanriddle/fs_proj3_item_catalog.git
+git clone https://github.com/ahmedsaalah/Item-Catalog.git
 ```
 
 Change directory to fs_proj3_item_catalog.
@@ -32,12 +32,12 @@ fs_proj3_item_catalog directory so it is accessible to the Item Catalog applicat
 # How to Initialize Database and Load Initial Categories
 To initialize the SQLite database (create empty tables) enter
 ```
-python db/database_setup.py
+python database_setup.py
 ```
 
 To load the initial sporting good categories enter
 ```
-python db/database_load.py
+python database_seed.py
 ```
 
 # Starting Application
@@ -52,5 +52,4 @@ Then bring up a browser and point it to localhost:5000.
 Adding, editing, and deleting items requires the user to log in. 
 Logins are handled by Google OAuth.  
 
-Users can see all items but can only edit and delete their own items.
-This has been tested with two users.
+
