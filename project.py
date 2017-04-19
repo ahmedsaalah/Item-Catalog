@@ -501,7 +501,7 @@ def editItem(item_title):
                     flash("Please enter a different title. Item " +
                         title + " already exists.")
                     return redirect(url_for('editItem', item_title=item_title))
-                editedItem.title = title
+                editedItem.name = title
             if request.form['description']:
                 editedItem.description = request.form['description']
             if request.form['category_id']:
