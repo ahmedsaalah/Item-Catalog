@@ -485,46 +485,61 @@ def newItem():
 @login_required
 def editItem(item_title):
     """ Handles updating an existing item """
+    
     editedItem = session.query(Item).filter_by(name=item_title).one()
-    category = session.query(Category).filter_by(id=editedItem.category_id).one()
-    categories = session.query(Category).all()
-    if request.method == 'POST':
-        if request.form['title']:
-            title = request.form['title']
-            if item_title != title and checkIfTitleExists(title):
-                flash("Please enter a different title. Item " +
-                    title + " already exists.")
-                return redirect(url_for('editItem', item_title=item_title))
-            editedItem.title = title
-        if request.form['description']:
-            editedItem.description = request.form['description']
-        if request.form['category_id']:
-            editedItem.category_id = request.form['category_id']
-        session.add(editedItem)
-        session.commit()
+    if editedItem.user_id == login_session['user_id']:
+        category = session.query(Category).filter_by(id=editedItem.category_id).one()
+        categories = session.query(Category).all()
+        if request.method == 'POST':
+
+            if request.form['title']:
+                
+
+
+                title = request.form['title']
+                if item_title != title and checkIfTitleExists(title):
+                    flash("Please enter a different title. Item " +
+                        title + " already exists.")
+                    return redirect(url_for('editItem', item_title=item_title))
+                editedItem.title = title
+            if request.form['description']:
+                editedItem.description = request.form['description']
+            if request.form['category_id']:
+                editedItem.category_id = request.form['category_id']
+            session.add(editedItem)
+            session.commit()
+            return redirect(url_for('getMainPage'))
+        else:
+            user = login_session['username']
+            return render_template(
+                'edit_item.html', item=editedItem, category=category,
+                categories=categories, user=user
+            )
+    else :
+        flash("You cannot edit this post")
         return redirect(url_for('getMainPage'))
-    else:
-        user = login_session['username']
-        return render_template(
-            'edit_item.html', item=editedItem, category=category,
-            categories=categories, user=user
-        )
+
 
 @app.route('/catalog/items/<item_title>/delete', methods=['GET', 'POST'])
 @login_required
 def deleteItem(item_title):
     """ Deletes an item given its unique title """
-    if request.method == 'POST':
-        itemToDelete = session.query(Item).filter_by(name=item_title).one()
-        session.delete(itemToDelete)
-        session.commit()
-        return redirect(url_for('getMainPage'))
-    else:
-        user = login_session['username']
-        return render_template(
-            'delete_item.html', item_title = item_title, user=user
-        )
+    itemToDelete = session.query(Item).filter_by(name=item_title).one()
+    if itemToDelete.user_id == login_session['user_id']:
 
+        if request.method == 'POST':
+            
+            session.delete(itemToDelete)
+            session.commit()
+            return redirect(url_for('getMainPage'))
+        else:
+            user = login_session['username']
+            return render_template(
+                'delete_item.html', item_title = item_title, user=user
+            )
+    else:
+        flash("You cannot delete this post")
+        return redirect(url_for('getMainPage'))
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
